@@ -7,14 +7,26 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixtures extends Fixture
+
 {
-    public function load(ObjectManager $manager)
-    {
-        // $product = new Product();
-        // $manager->persist($product);
-        $category = new Category();
-        $category->setName('Horreur');
-        $manager->persist($category);
+   const CATEGORIES = [
+           'Action',
+           'Aventure',
+           'Animation',
+           'Fantastique',
+           'Comedie',
+
+  ];
+   public function load(ObjectManager $manager)
+  {
+        foreach (self::CATEGORIES as $categoryName) {
+           $category = new Category();
+           $category->setName($categoryName);
+           $manager->persist($category);
+           $this->addReference('category_' . $categoryName, $category);
+
+
+       }
         $manager->flush();
     }
 }
